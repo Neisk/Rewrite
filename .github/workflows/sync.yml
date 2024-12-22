@@ -2,14 +2,13 @@ name: Sync Upstream
 
 on:
   schedule:
-    # 每小时同步一次，可以根据需要调整 cron 表达式
-    - cron: '0 * * * *'
+    - cron: '0 * * * *'  # 每小时同步一次
   push:
     branches:
       - main
       - chxm1023
       - Loon
-      - Surge  # 可以在此处列出所有需要同步的分支
+      - Surge
 
 jobs:
   sync:
@@ -38,7 +37,8 @@ jobs:
       - name: Sync with upstream
         run: |
           for branch in main dev feature; do
-            git checkout $branch
+            git checkout $branch || git checkout -b $branch --track origin/$branch
+            git pull origin $branch --rebase  # 确保同步远程分支
             git merge upstream/$branch --allow-unrelated-histories -m "Sync with upstream $branch"
-            git push origin $branch
+            git push origin $branch --force-with-lease  # 确保推送成功并避免覆盖其他人修改
           done
