@@ -28,7 +28,7 @@ jobs:
 
       # 添加上游仓库
       - name: Add upstream repository
-        run: git remote add upstream https://github.com/上游仓库/仓库名.git
+        run: git remote add upstream https://github.com/chxm1023/Rewrite.git
 
       # 拉取上游仓库的更新
       - name: Fetch upstream changes
